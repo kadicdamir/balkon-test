@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import { loadBook, saveBook } from '../actions/booksAction';
+import { loadBook, saveBook, addBook } from '../actions/booksAction';
 
 class Book extends Component {
   constructor(props) {
@@ -24,6 +24,7 @@ class Book extends Component {
 
   render() {
     const { saveBook } = this.props;
+    const { addBook } = this.props;
     const { book } = this.state;
 
     if (!book) {
@@ -40,9 +41,26 @@ class Book extends Component {
                    value={book.title}
                    onChange={ (e) => this.setState({ book: { ...book, title: e.target.value } }) } />
           </div>
+          <div className="form-group">
+            <label>No of pages</label>
+            <input type="text"
+                   className="form-control"
+                   value={book.number_of_pages}
+                   onChange={ (e) => this.setState({ book: { ...book, number_of_pages: e.target.value } }) } />
+          </div>
+          <div className="form-group">
+            <label>id code</label>
+            <input type="text"
+                   className="form-control"
+                   value={book.id_code}
+                   onChange={ (e) => this.setState({ book: { ...book, id_code: e.target.value } }) } />
+          </div>
           <button type="button"
                   className="btn btn-primary"
                   onClick={() => saveBook(this.state.book)}>Save</button>
+          <button type="button"
+                          className="btn btn-primary ml-1"
+                          onClick={() => addBook(this.state.book)}>Add new</button>
         </form>
         <br/>
         {book.title} {book._id}
@@ -62,5 +80,5 @@ const mapStateToProps = ({books}) => ({
 
 export default connect(
   mapStateToProps,
-  { loadBook, saveBook },
+  { loadBook, saveBook, addBook },
 )(Book);

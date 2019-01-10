@@ -1,4 +1,4 @@
-import { BOOKS_LOAD, BOOKS_LOAD_SUCCESS, BOOKS_LOAD_ERROR, BOOK_LOAD, BOOK_DELETE } from '../actions/booksAction'
+import { AUTHORS_LOAD, AUTHORS_LOAD_SUCCESS, AUTHORS_LOAD_ERROR, AUTHOR_LOAD, AUTHOR_DELETE } from '../actions/authorsAction'
 
 const INIT_STATE = {
   items: [],
@@ -7,50 +7,50 @@ const INIT_STATE = {
   current: null
 }
 
-const booksReducer = (state = INIT_STATE, action) => {
-  switch (action.type) {
-    case BOOKS_LOAD:
+const authorsReducer = ( state = INIT_STATE, action) => {
+  switch (action.type){
+    case AUTHORS_LOAD:
       return {
         ...state,
         loader: true
       };
-    case BOOKS_LOAD_SUCCESS:
+    case AUTHORS_LOAD_SUCCESS:
       return {
         ...state,
         items: action.books,
         loader: false,
         error: null
       };
-    case BOOKS_LOAD_ERROR:
+    case AUTHORS_LOAD_ERROR:
       return {
         ...state,
         loader: false,
         error: action.error
       };
-    case BOOK_LOAD:
-      const { book } = action;
+    case AUTHOR_LOAD:
+      const { author } = action;
 
       const items = state.items.map(
         item => {
-          if (item._id !== book._id) {
+          if(item._id !== author._id){
             return item;
           }
-          return book;
+          return author;
         }
       );
 
-      if (items.filter(i => i._id === book._id).length === 0) {
-        items.push(book)
+      if (items.filter(i => i._id ===author._id).length === 0) {
+        items.push(author);
       }
 
       return {
         ...state,
         items,
-        loader: false,
+        loader:false,
         error: null,
-        current: book._id
+        current: author._id
       };
-    case BOOK_DELETE:
+    case AUTHOR_DELETE:
       const { id } = action;
 
       return {
@@ -58,11 +58,11 @@ const booksReducer = (state = INIT_STATE, action) => {
         items: state.items.filter(item => item._id !== id),
         loader: false,
         error: null,
-        current: null
-      };
+        current:null
+      }
     default:
       return state
   }
 }
 
-export default booksReducer
+export default authorsReducer
